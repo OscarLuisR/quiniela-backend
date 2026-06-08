@@ -1,0 +1,75 @@
+CASOS DE USO REVISAR:
+-----------------------
+
+1) Al correr la app con un puerto que no esta registrado en el cors solo aparece un toast de error de fetch en el frontend.
+
+2) AL tener ambas app abiertas una corriendo en el puerto 4200 y la otra en el puerto 4300, si entro como admin en la app de admin y luego entro a la app de usuario con un usuario, entonces me cambia el rol de administrador a jugador y no me deja entrar en las opciones de la app de administrador. Al parecer sobre escribe las cookies.
+
+3) (** LISTO **) - Revisar y/o modificar el calendario agregando el campo UTC que esta en la pagina de la FIFA, para ver si en cada pais se ve bien el horario.
+
+4) (** LISTO **) - Hay que arregla los pie de pagina de ambas aplicaciones USER Y ADMIN ya que esta en ingles, Tambien tiene logo, nombre, fecha, redes sociales y copyright que no corresponde.
+
+5) Redactar y crear la ventana de TERMINOS Y CONDICIONES que se muestran en la ventana de REGISTRATE 
+
+6) (** LISTO **) - Ver que en todas las paginas de la APP USER cuando se selecciona un grupo (CLASIFICACION) o se selecciona una fase (CALENDARIO) etc, solo cambie la parte del contenido dinamico y no los Titulos y Subtitulos.
+
+7) (** LISTO **) - Cuando se desactive un usuario hay que bloquearlo en la APP USER. Creo que lo mejor seria que al intentar navegar a cualquier pagina o cuando intente realizar cualquier accion la aplicacion lo saque del sistema. Como se haria para que una ve que se desactive el usuario este proceso ocurra o hay que validar en cada navegacion o accion si el usuario esta activo. Hay que ver que es menos costoso y que es mas rendidor.
+
+8) Hay que ver como se soluciona el tema de los procesos que deberian correr de forma automatica, por ejemplo para el cierre del pronostico faltando 1 hora para empezar el juego, o para cambiar el estatus EN PRECESO al partido que acaba de comenzar. Ver si se hace de forma manual o si la IA da una solucion para hacerlo automaticamente.
+
+9) Revision final de todo el flujo de procesos de las app
+
+10) (** LISTO **) revisar que la app user sea RESPONSIVE
+
+
+APP ADMIN
+-----------------------
+
+1) (** LISTO **) - Crear modulo para abrir/cerrar ETAPAS DEL MUNDIAL (Fase de Grupos, Octavos, etc). Al inicial la APP USER solo esta disponible la Fase de Grupos pero luego hay que ir abriendo las proximas fases. Al abrir una nueva fase hay que crear el registro de todos los pronosticos de todos los usuarios registrados.
+
+2) (IMPORTANTE) Revisar el modulo creado abrir/cerrar ETAPAS DEL MUNDIAL. Para evitar que se creen pronosticos con estatus True donde ya el juego haya cerrado. 
+
+3) (** LISTO **) - Crear modulo para abrir/cerrar PRONOSTICOS. Esto para que los usuarios no puedan realizar pronosticos cuando empieza un partido o para una fase ya culminada.
+
+4) (** LISTO **) - Crear modulo para registrar marcador del partido y abrir/cerrar PARTIDOS. Solo para los juegos que estan en curso o finalizados. Si un partido esta cerrado y por alguna razon hay que cambiar el marcador (se registro erradamente) entonces se podra modificar pero hay que estar pendiente porque hay que recalcular las personas que acertaron el pronostico, es decir. Limpiar la data para borrar el calculo errado y registrar el nuevo calculo
+
+5) (IMPORTANTE) Crear modulo para Registrar la CLASIFICACION de los equipos para las proximas etapas clasificatorias Deciseisavo de Fonal, Octavos de Final, Cuartos de Final, Semi Final, Tercer Puesto y Final.
+
+6) (** LISTO **) - Verificar el modulo de usuarios, que ocurre cuando se activa o desactiva un usuario. actualmente si se desactiva el usuario sigue ejecutando acciones en la aplicacion.
+
+
+APP USER
+-----------------------
+
+LANDIN PAGE
+-------------
+
+
+1) (** LISTO **) - Ver que logo se coloca definitivamente en la pagina (tanto al inicio como en el pie de pagina).
+
+2) (** LISTO **) - Revisar los titulos, subtitulos y leyendas para ver si corresponden.
+
+3) (** LISTO **) - En la seccion de COMO JUGAR, cambiarle el color al item PRECIDE ya que tiene el mismo color que el item REGISTRATE. Puede ser un amarillo, naranja o morado como esta en otras secciones de la APP.
+
+4) (** LISTO **) - En la pagina principal se deben cargar los juegos del dia con sus respectivos estatus (Pendiente, En curso, Finalizado) y su respectivo marcador de resultados. Es decir el juego Pendiente no tiene marcador, el juego Finalizado si tiene un marcador final, pero para el juego En curso, como la app no actualiza resultados en vivo hay que ver si desde la APP ADMIN se vaya cargando el resultado (sin cerrar el juego) para que el marcador se vaya mostrando en esta pagina principal. Logicamente el usuario tiene que refrescar la pagina. Ver si hay posibilidades de que al actualizar le marcador en la APP de ADMIN se refleje directamente en la APP USER. 
+
+
+CLASIFICACION
+-------------
+
+1) (** LISTO **) - En la ventana de clasificacion en la barra de Grupos al seleccionar un grupo (a partir del G hacia adelante) el scroll de la barra siempre se va al primer grupo aunque en realidad este seleccionado el ultimo. Creo que eso sucede porque se refresca la ventana (cosa que hay que arreglar).
+
+
+PRONOSTICO
+-------------
+
+1) (** LISTO **) - Ya existe una etiqueta con el puntaje Total hay que colocar una etiqueta con el puntaje por fase. Es decir el PUNTAJE TOTAL siempre se muestar que es el global que tiene el usuario y PUNTAJE POR FASE es el puntaje que a obtenidos por cada fase, ese es dinamico y cambia al seleccionar cada fase.
+
+2) (** LISTO **) - Si no existe la estructura de registro de pronosticos creados (esto se crea en configuracion al cambiar el estatus de la etapa a ABIERTA), entonces el BOTON DE GUARDAR no deberia mostrarse.
+
+RANKING
+-------------
+
+1) (** LISTO **) - Desarrollar todo
+
+2) (** LISTO **) - Arreglar los iconos y abtener los puntos de los podio 1, 2 y 3
