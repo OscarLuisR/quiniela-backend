@@ -1,6 +1,6 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
-import pkgjson from "../../package.json";
+import pkgjson from "../../package.json" with { type: "json" }; // 👈 agrega esto
 
 const router = Router();
 

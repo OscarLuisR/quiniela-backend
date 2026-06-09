@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import type { IResponseAuth } from "../types/IResponseAuth";
 import type { IAuthenticatedRequest } from "../types/IAuthenticatedRequest";
 import { loginService } from "../services/auth.services.js";
-import { limpiarCookiesAutorizacion } from "../utils/funcionesGlobales";
+import { limpiarCookiesAutorizacion } from "../utils/funcionesGlobales.js";
 
 export async function loginController(
     req: Request,
