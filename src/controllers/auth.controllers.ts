@@ -15,13 +15,13 @@ export async function loginController(
     res.cookie("access_token", respuesta.accessToken, {
         httpOnly: true,
         secure: isProd,
-        sameSite: isProd ? "strict" : "lax",
+        sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
         maxAge: 1000 * 60 * 60, // TODO: CAMBIARLE EL TIEMPO A LA COOKIE. OJO VER SI APLICA
     })
         .cookie("refresh_token", respuesta.refreshToken, {
             httpOnly: true,
             secure: isProd,
-            sameSite: isProd ? "strict" : "lax",
+            sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
             maxAge: 1000 * 60 * 60, // TODO: CAMBIARLE EL TIEMPO A LA COOKIE. OJO VER SI APLICA
         })
         .status(200)

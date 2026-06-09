@@ -133,7 +133,7 @@ export const limpiarCookiesAutorizacion = (res: Response) => {
     const opciones: CookieOptions = {
         httpOnly: true,
         secure: isProd,
-        sameSite: isProd ? "strict" : "lax",
+        sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
     };
 
     res.clearCookie("access_token", opciones);
