@@ -126,7 +126,7 @@ async function verificaHeaderCookies(
                 httpOnly: true,
                 secure: isProd,
                 sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-                maxAge: 1000 * 60 * 60, // TODO: CAMBIARLE EL TIEMPO A LA COOKIE. OJO VER SI APLICA
+                maxAge: 1000 * 60 * 60,
             });
 
             return decodeRefreshToken.payLoad!;

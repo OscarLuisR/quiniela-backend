@@ -155,63 +155,25 @@ export async function getCalendarioByFaseService(
 export async function getProximosPartidosService(
     localDate: string,
 ): Promise<{ docs: ICalendario[] }> {
-    let now = new Date();
-
-    // Dividimos "2026-06-12" en partes numéricas.
-    // Al armar el Date con números en vez de un string,
-    // JavaScript usa tu zona horaria local obligatoriamente y NO retrasa el día.
+    // 1. Extraemos año, mes y día del string que manda el frontend
     const [year, month, day] = localDate.split("-").map(Number);
-    now = new Date(year, month - 1, day); // month es base 0, por eso month - 1
 
-    // Definimos el inicio del día actual (00:00:00)
-    const startOfToday = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        0,
-        0,
-        0,
-    );
+    // 2. Creamos el punto de partida en UTC puro (00:00:00)
+    // Esto es un "ancla" segura. Cubre desde antes de que empiece el día
+    // en Venezuela, Chile, Argentina o USA.
+    const startDateUTC = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
 
-    // PASO 1: Buscar el primer día con partidos >= hoy
-    const proximoPartido = await CalendarioModel.findOne({
-        fecha: { $gte: startOfToday },
-    })
-        .sort({ fecha: 1 })
-        .select("fecha"); // Solo necesitamos la fecha
-
-    if (!proximoPartido) {
-        return { docs: [] };
-    }
-
-    // Definimos el rango del "Día Objetivo"
-    const targetDate = new Date(proximoPartido.fecha);
-    const startOfTargetDay = new Date(
-        targetDate.getFullYear(),
-        targetDate.getMonth(),
-        targetDate.getDate(),
-        0,
-        0,
-        0,
-    );
-    const endOfTargetDay = new Date(
-        targetDate.getFullYear(),
-        targetDate.getMonth(),
-        targetDate.getDate(),
-        23,
-        59,
-        59,
-        999,
-    );
-
-    // PASO 2: Traer todos los partidos de ESE día con todos sus cruces (Lookups)
+    // 3. Traemos un bloque de partidos en crudo a partir de ese ancla
+    // Puedes ajustar el limit según cuántos partidos en promedio haya por día
+    // 3. Traemos los partidos y usamos populate para hacer el "join"
     const results = await CalendarioModel.aggregate([
         {
             $match: {
-                fecha: { $gte: startOfTargetDay, $lte: endOfTargetDay },
+                fecha: { $gte: startDateUTC },
             },
         },
         { $sort: { fecha: 1, nroPartido: 1 } },
+        { $limit: 20 },
         // Lookups a las tablas relacionadas (Selecciones, Grupos, Sedes)
         {
             $lookup: {
@@ -1122,3 +1084,193 @@ export async function updateCierreCalendarioService(
 
     return;
 }
+
+/* RESPALDO
+export async function getProximosPartidosService(
+    localDate: string,
+): Promise<{ docs: ICalendario[] }> {
+    let now = new Date();
+
+    // Dividimos "2026-06-12" en partes numéricas.
+    // Al armar el Date con números en vez de un string,
+    // JavaScript usa tu zona horaria local obligatoriamente y NO retrasa el día.
+    const [year, month, day] = localDate.split("-").map(Number);
+    now = new Date(year, month - 1, day); // month es base 0, por eso month - 1
+
+    // Definimos el inicio del día actual (00:00:00)
+    const startOfToday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        0,
+        0,
+        0,
+    );
+
+    // PASO 1: Buscar el primer día con partidos >= hoy
+    const proximoPartido = await CalendarioModel.findOne({
+        fecha: { $gte: startOfToday },
+    })
+        .sort({ fecha: 1 })
+        .select("fecha"); // Solo necesitamos la fecha
+
+    if (!proximoPartido) {
+        return { docs: [] };
+    }
+
+    // Definimos el rango del "Día Objetivo"
+    const targetDate = new Date(proximoPartido.fecha);
+    const startOfTargetDay = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        targetDate.getDate(),
+        0,
+        0,
+        0,
+    );
+    const endOfTargetDay = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        targetDate.getDate(),
+        23,
+        59,
+        59,
+        999,
+    );
+
+    // PASO 2: Traer todos los partidos de ESE día con todos sus cruces (Lookups)
+    const results = await CalendarioModel.aggregate([
+        {
+            $match: {
+                fecha: { $gte: startOfTargetDay, $lte: endOfTargetDay },
+            },
+        },
+        { $sort: { fecha: 1, nroPartido: 1 } },
+        // Lookups a las tablas relacionadas (Selecciones, Grupos, Sedes)
+        {
+            $lookup: {
+                from: "selecciones",
+                localField: "idEquipoA",
+                foreignField: "_id",
+                as: "eqA",
+            },
+        },
+        {
+            $lookup: {
+                from: "selecciones",
+                localField: "idEquipoB",
+                foreignField: "_id",
+                as: "eqB",
+            },
+        },
+        {
+            $lookup: {
+                from: "grupos",
+                localField: "idGrupo",
+                foreignField: "_id",
+                as: "grp",
+            },
+        },
+        {
+            $lookup: {
+                from: "sedes",
+                localField: "idSede",
+                foreignField: "_id",
+                as: "sde",
+            },
+        },
+        // Proyección limpia sin idFase ni idGanador
+        {
+            $project: {
+                _id: 1,
+                nroPartido: 1,
+                fecha: 1,
+                golesEquipoA: 1,
+                golesEquipoB: 1,
+                statusJuego: 1,
+
+                // Estructura idEquipoA limpia, idéntica al primer endpoint
+                idEquipoA: {
+                    $let: {
+                        vars: { team: { $arrayElemAt: ["$eqA", 0] } },
+                        in: {
+                            $cond: {
+                                if: {
+                                    $eq: [{ $ifNull: ["$$team", null] }, null],
+                                },
+                                then: null,
+                                else: {
+                                    _id: "$$team._id",
+                                    pais: "$$team.pais",
+                                    codigo_iso: "$$team.codigo_iso",
+                                    bandera_url: "$$team.bandera_url",
+                                },
+                            },
+                        },
+                    },
+                },
+                // Estructura idEquipoB limpia, idéntica al primer endpoint
+                idEquipoB: {
+                    $let: {
+                        vars: { team: { $arrayElemAt: ["$eqB", 0] } },
+                        in: {
+                            $cond: {
+                                if: {
+                                    $eq: [{ $ifNull: ["$$team", null] }, null],
+                                },
+                                then: null,
+                                else: {
+                                    _id: "$$team._id",
+                                    pais: "$$team.pais",
+                                    codigo_iso: "$$team.codigo_iso",
+                                    bandera_url: "$$team.bandera_url",
+                                },
+                            },
+                        },
+                    },
+                },
+                // Estructura idGrupo limpia
+                idGrupo: {
+                    $let: {
+                        vars: { g: { $arrayElemAt: ["$grp", 0] } },
+                        in: {
+                            $cond: {
+                                if: { $eq: [{ $ifNull: ["$$g", null] }, null] },
+                                then: null,
+                                else: {
+                                    _id: "$$g._id",
+                                    nombre: "$$g.nombre",
+                                },
+                            },
+                        },
+                    },
+                },
+                // Estructura idSede limpia
+                idSede: {
+                    $let: {
+                        vars: { s: { $arrayElemAt: ["$sde", 0] } },
+                        in: {
+                            $cond: {
+                                if: { $eq: [{ $ifNull: ["$$s", null] }, null] },
+                                then: null,
+                                else: {
+                                    _id: "$$s._id",
+                                    pais: "$$s.pais",
+                                    ciudad: "$$s.ciudad",
+                                    estadium: "$$s.estadium",
+                                    capacidad: "$$s.capacidad",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    ]);
+
+    return {
+        docs: results,
+    };
+}
+
+*/

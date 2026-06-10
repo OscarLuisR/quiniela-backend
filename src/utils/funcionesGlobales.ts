@@ -108,7 +108,7 @@ export async function GeneraToken(
     try {
         // Genera el TOKEN
         const token = await jwt.sign(payLoad, options.secret, {
-            expiresIn: "1h", // TODO: Ver como pasar el expiresIn como number o string
+            expiresIn: "1h",
         });
 
         return token;
