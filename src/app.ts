@@ -20,7 +20,6 @@ app.use(
         origin: [
             "http://localhost:4200",
             "http://localhost:4300",
-            "http://192.168.1.101:4200",
             process.env.FRONTEND_URL || "", // 👈 Agrega esto
         ].filter(Boolean), // 👈 Esto elimina valores vacíos
         credentials: true,
