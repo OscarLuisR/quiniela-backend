@@ -125,8 +125,12 @@ export async function GeneraToken(
     }
 }
 
-export const limpiarCookiesAutorizacion = (res: Response) => {
+export const limpiarCookiesAutorizacion = (req: Request, res: Response) => {
     const isProd = process.env.MODE_ENV === "production";
+
+    // 1. Detectamos de dónde viene la petición (tu localhost o Vercel)
+    const clientOrigin = req.headers.origin || "";
+    const isLocalhost = clientOrigin.includes("localhost");
 
     // Centralizamos la configuración para que coincida exactamente
     // con cómo se crearon (requisito de los navegadores para poder borrarlas)
@@ -134,8 +138,7 @@ export const limpiarCookiesAutorizacion = (res: Response) => {
         httpOnly: true,
         secure: isProd,
         // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-        //sameSite: isProd ? "strict" : "lax",
-        sameSite: "lax",
+        sameSite: isLocalhost ? "none" : "lax",
     };
 
     res.clearCookie("access_token", opciones);

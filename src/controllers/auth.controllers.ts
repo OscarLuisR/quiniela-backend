@@ -12,19 +12,22 @@ export async function loginController(
     const isProd = process.env.MODE_ENV === "production";
     const respuesta: IResponseAuth = await loginService(req.body);
 
+    // 1. Detectamos de dónde viene la petición (tu localhost o Vercel)
+    const clientOrigin = req.headers.origin || "";
+    const isLocalhost = clientOrigin.includes("localhost");
+
     res.cookie("access_token", respuesta.accessToken, {
         httpOnly: true,
         secure: isProd,
         // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-        sameSite: "lax",
+        sameSite: isLocalhost ? "none" : "lax",
         maxAge: 1000 * 60 * 60,
     })
         .cookie("refresh_token", respuesta.refreshToken, {
             httpOnly: true,
             secure: isProd,
             // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-            // sameSite: isProd ? "strict" : "lax",
-            sameSite: "lax",
+            sameSite: isLocalhost ? "none" : "lax",
             maxAge: 1000 * 60 * 60,
         })
         .status(200)
@@ -42,7 +45,7 @@ export async function logoutController(
     next: NextFunction,
 ): Promise<void> {
     // Función auxiliar para matar la sesión en el navegador
-    limpiarCookiesAutorizacion(res);
+    limpiarCookiesAutorizacion(req, res);
 
     res.status(200).json({
         error: false,

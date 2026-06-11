@@ -45,6 +45,10 @@ async function verificaHeaderCookies(
     try {
         const isProd = process.env.MODE_ENV === "production";
 
+        // 1. Detectamos de dónde viene la petición (tu localhost o Vercel)
+        const clientOrigin = req.headers.origin || "";
+        const isLocalhost = clientOrigin.includes("localhost");
+
         // Verifica que los Tokens vengan en las cookies de la cabecera
         if (
             !req.cookies ||
@@ -57,7 +61,7 @@ async function verificaHeaderCookies(
                 : "Faltan las Cookies de Autorización";
 
             // Función auxiliar para matar la sesión en el navegador
-            limpiarCookiesAutorizacion(res);
+            limpiarCookiesAutorizacion(req, res);
 
             throw new AppError(message, 401, location);
         }
@@ -72,7 +76,7 @@ async function verificaHeaderCookies(
                 : "Debe proporcionar un Token Valido";
 
             // Función auxiliar para matar la sesión en el navegador
-            limpiarCookiesAutorizacion(res);
+            limpiarCookiesAutorizacion(req, res);
 
             throw new AppError(message, 401, location);
         }
@@ -100,7 +104,7 @@ async function verificaHeaderCookies(
                     : "Acceso Denegado. El Refresh Token ha Expirado";
 
                 // Función auxiliar para matar la sesión en el navegador
-                limpiarCookiesAutorizacion(res);
+                limpiarCookiesAutorizacion(req, res);
 
                 throw new AppError(message, 401, location);
             }
@@ -126,8 +130,7 @@ async function verificaHeaderCookies(
                 httpOnly: true,
                 secure: isProd,
                 // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-                // sameSite: isProd ? "strict" : "lax",
-                sameSite: "lax",
+                sameSite: isLocalhost ? "none" : "lax",
                 maxAge: 1000 * 60 * 60,
             });
 
@@ -140,7 +143,7 @@ async function verificaHeaderCookies(
         // lo capturamos aquí y limpiamos las cookies antes de enviarlo al manejador global.
         if (error instanceof AppError && error.statusCode === 401) {
             // Función auxiliar para matar la sesión en el navegador
-            limpiarCookiesAutorizacion(res);
+            limpiarCookiesAutorizacion(req, res);
 
             throw error;
         }

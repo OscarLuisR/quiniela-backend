@@ -19,7 +19,7 @@ export const checkUserActive = async (
     // SI EL USUARIO NO EXISTE O ESTÁ INACTIVO
     if (!user || user.status.toLowerCase() === "inactivo") {
         // Función auxiliar para matar la sesión en el navegador
-        limpiarCookiesAutorizacion(res);
+        limpiarCookiesAutorizacion(req, res);
 
         // 2. Definimos el mensaje
         const message = isProd
