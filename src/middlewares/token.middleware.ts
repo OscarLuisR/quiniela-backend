@@ -126,6 +126,7 @@ async function verificaHeaderCookies(
                 httpOnly: true,
                 secure: isProd,
                 sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
+                // sameSite: isProd ? "strict" : "lax",
                 maxAge: 1000 * 60 * 60,
             });
 

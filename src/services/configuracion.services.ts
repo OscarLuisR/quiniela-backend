@@ -1671,11 +1671,964 @@ export async function createClasificacionService(): Promise<string[]> {
 }
 
 export async function createCalendarioService(): Promise<string[]> {
+    // // Array de selecciones por grupo
+    // const calendario = [
+    //     {
+    //         nroPartido: 1,
+    //         fecha: new Date("2026-06-11T19:00:00Z"), // formato ISO
+    //         paisA: "México",
+    //         paisB: "Sudáfrica",
+    //         codigoSede: 1,
+    //         grupo: "Grupo A",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 2,
+    //         fecha: new Date("2026-06-12T02:00:00Z"), // formato ISO
+    //         paisA: "República de Corea",
+    //         paisB: "República Checa",
+    //         codigoSede: 2,
+    //         grupo: "Grupo A",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 3,
+    //         fecha: new Date("2026-06-12T19:00:00Z"), // formato ISO
+    //         paisA: "Canadá",
+    //         paisB: "Bosnia y Herzegovina",
+    //         codigoSede: 5,
+    //         grupo: "Grupo B",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 4,
+    //         fecha: new Date("2026-06-13T01:00:00Z"), // formato ISO
+    //         paisA: "EEUU",
+    //         paisB: "Paraguay",
+    //         codigoSede: 7,
+    //         grupo: "Grupo D",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 8,
+    //         fecha: new Date("2026-06-13T19:00:00Z"), // formato ISO
+    //         paisA: "Qatar",
+    //         paisB: "Suiza",
+    //         codigoSede: 16,
+    //         grupo: "Grupo B",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 7,
+    //         fecha: new Date("2026-06-13T22:00:00Z"), // formato ISO
+    //         paisA: "Brasil",
+    //         paisB: "Marruecos",
+    //         codigoSede: 6,
+    //         grupo: "Grupo C",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 5,
+    //         fecha: new Date("2026-06-14T01:00:00Z"), // formato ISO
+    //         paisA: "Haití",
+    //         paisB: "Escocia",
+    //         codigoSede: 12,
+    //         grupo: "Grupo C",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 6,
+    //         fecha: new Date("2026-06-14T04:00:00Z"), // formato ISO
+    //         paisA: "Australia",
+    //         paisB: "Turquía",
+    //         codigoSede: 4,
+    //         grupo: "Grupo D",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 9,
+    //         fecha: new Date("2026-06-14T17:00:00Z"), // formato ISO
+    //         paisA: "Alemania",
+    //         paisB: "Curazao",
+    //         codigoSede: 10,
+    //         grupo: "Grupo E",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 11,
+    //         fecha: new Date("2026-06-14T20:00:00Z"), // formato ISO
+    //         paisA: "Países Bajos",
+    //         paisB: "Japón",
+    //         codigoSede: 8,
+    //         grupo: "Grupo F",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 10,
+    //         fecha: new Date("2026-06-14T23:00:00Z"), // formato ISO
+    //         paisA: "Costa de Marfil",
+    //         paisB: "Ecuador",
+    //         codigoSede: 13,
+    //         grupo: "Grupo E",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 12,
+    //         fecha: new Date("2026-06-15T02:00:00Z"), // formato ISO
+    //         paisA: "Suecia",
+    //         paisB: "Túnez",
+    //         codigoSede: 3,
+    //         grupo: "Grupo F",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 14,
+    //         fecha: new Date("2026-06-15T16:00:00Z"), // formato ISO
+    //         paisA: "España",
+    //         paisB: "Islas de Cabo Verde",
+    //         codigoSede: 11,
+    //         grupo: "Grupo H",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 16,
+    //         fecha: new Date("2026-06-15T19:00:00Z"), // formato ISO
+    //         paisA: "Bélgica",
+    //         paisB: "Egipto",
+    //         codigoSede: 15,
+    //         grupo: "Grupo G",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 13,
+    //         fecha: new Date("2026-06-15T22:00:00Z"), // formato ISO
+    //         paisA: "Arabia Saudí",
+    //         paisB: "Uruguay",
+    //         codigoSede: 14,
+    //         grupo: "Grupo H",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 15,
+    //         fecha: new Date("2026-06-16T01:00:00Z"), // formato ISO
+    //         paisA: "RI de Irán",
+    //         paisB: "Nueva Zelanda",
+    //         codigoSede: 7,
+    //         grupo: "Grupo G",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 17,
+    //         fecha: new Date("2026-06-16T19:00:00Z"), // formato ISO
+    //         paisA: "Francia",
+    //         paisB: "Senegal",
+    //         codigoSede: 6,
+    //         grupo: "Grupo I",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 18,
+    //         fecha: new Date("2026-06-16T22:00:00Z"), // formato ISO
+    //         paisA: "Irak", // Bolivia BOL o Iraq IRQ
+    //         paisB: "Noruega",
+    //         codigoSede: 12,
+    //         grupo: "Grupo I",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 19,
+    //         fecha: new Date("2026-06-17T01:00:00Z"), // formato ISO
+    //         paisA: "Argentina",
+    //         paisB: "Argelia",
+    //         codigoSede: 9,
+    //         grupo: "Grupo J",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 20,
+    //         fecha: new Date("2026-06-17T04:00:00Z"), // formato ISO
+    //         paisA: "Austria",
+    //         paisB: "Jordania",
+    //         codigoSede: 16,
+    //         grupo: "Grupo J",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 23,
+    //         fecha: new Date("2026-06-17T17:00:00Z"), // formato ISO
+    //         paisA: "Portugal",
+    //         paisB: "Congo DR", // Jamaica JAM o República Democrática del Congo DRC
+    //         codigoSede: 10,
+    //         grupo: "Grupo K",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 22,
+    //         fecha: new Date("2026-06-17T20:00:00Z"), // formato ISO
+    //         paisA: "Inglaterra",
+    //         paisB: "Croacia",
+    //         codigoSede: 8,
+    //         grupo: "Grupo L",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 21,
+    //         fecha: new Date("2026-06-17T23:00:00Z"), // formato ISO
+    //         paisA: "Ghana",
+    //         paisB: "Panamá",
+    //         codigoSede: 5,
+    //         grupo: "Grupo L",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 24,
+    //         fecha: new Date("2026-06-18T02:00:00Z"), // formato ISO
+    //         paisA: "Uzbekistán",
+    //         paisB: "Colombia",
+    //         codigoSede: 1,
+    //         grupo: "Grupo K",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 25,
+    //         fecha: new Date("2026-06-18T16:00:00Z"), // formato ISO
+    //         paisA: "República Checa",
+    //         paisB: "Sudáfrica",
+    //         codigoSede: 11,
+    //         grupo: "Grupo A",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 26,
+    //         fecha: new Date("2026-06-18T19:00:00Z"), // formato ISO
+    //         paisA: "Suiza",
+    //         paisB: "Bosnia y Herzegovina",
+    //         codigoSede: 7,
+    //         grupo: "Grupo B",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 27,
+    //         fecha: new Date("2026-06-18T22:00:00Z"), // formato ISO
+    //         paisA: "Canadá",
+    //         paisB: "Qatar",
+    //         codigoSede: 4,
+    //         grupo: "Grupo B",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 28,
+    //         fecha: new Date("2026-06-19T01:00:00Z"), // formato ISO
+    //         paisA: "México",
+    //         paisB: "República de Corea",
+    //         codigoSede: 2,
+    //         grupo: "Grupo A",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 32,
+    //         fecha: new Date("2026-06-19T19:00:00Z"), // formato ISO
+    //         paisA: "EEUU",
+    //         paisB: "Australia",
+    //         codigoSede: 15,
+    //         grupo: "Grupo D",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 30,
+    //         fecha: new Date("2026-06-19T22:00:00Z"), // formato ISO
+    //         paisA: "Escocia",
+    //         paisB: "Marruecos",
+    //         codigoSede: 12,
+    //         grupo: "Grupo C",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 29,
+    //         fecha: new Date("2026-06-20T01:00:00Z"), // formato ISO
+    //         paisA: "Brasil",
+    //         paisB: "Haití",
+    //         codigoSede: 13,
+    //         grupo: "Grupo C",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 31,
+    //         fecha: new Date("2026-06-20T04:00:00Z"), // formato ISO
+    //         paisA: "Turquía",
+    //         paisB: "Paraguay",
+    //         codigoSede: 16,
+    //         grupo: "Grupo D",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 35,
+    //         fecha: new Date("2026-06-20T17:00:00Z"), // formato ISO
+    //         paisA: "Países Bajos",
+    //         paisB: "Suecia",
+    //         codigoSede: 10,
+    //         grupo: "Grupo F",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 33,
+    //         fecha: new Date("2026-06-20T20:00:00Z"), // formato ISO
+    //         paisA: "Alemania",
+    //         paisB: "Costa de Marfil",
+    //         codigoSede: 5,
+    //         grupo: "Grupo E",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 34,
+    //         fecha: new Date("2026-06-20T24:00:00Z"), // formato ISO
+    //         paisA: "Ecuador",
+    //         paisB: "Curazao",
+    //         codigoSede: 9,
+    //         grupo: "Grupo E",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 36,
+    //         fecha: new Date("2026-06-21T04:00:00Z"), // formato ISO
+    //         paisA: "Túnez",
+    //         paisB: "Japón",
+    //         codigoSede: 3,
+    //         grupo: "Grupo F",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 38,
+    //         fecha: new Date("2026-06-21T16:00:00Z"), // formato ISO
+    //         paisA: "España",
+    //         paisB: "Arabia Saudí",
+    //         codigoSede: 11,
+    //         grupo: "Grupo H",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 39,
+    //         fecha: new Date("2026-06-21T19:00:00Z"), // formato ISO
+    //         paisA: "Bélgica",
+    //         paisB: "RI de Irán",
+    //         codigoSede: 7,
+    //         grupo: "Grupo G",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 37,
+    //         fecha: new Date("2026-06-21T22:00:00Z"), // formato ISO
+    //         paisA: "Uruguay",
+    //         paisB: "Islas de Cabo Verde",
+    //         codigoSede: 14,
+    //         grupo: "Grupo H",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 40,
+    //         fecha: new Date("2026-06-22T01:00:00Z"), // formato ISO
+    //         paisA: "Nueva Zelanda",
+    //         paisB: "Egipto",
+    //         codigoSede: 4,
+    //         grupo: "Grupo G",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 43,
+    //         fecha: new Date("2026-06-22T17:00:00Z"), // formato ISO
+    //         paisA: "Argentina",
+    //         paisB: "Austria",
+    //         codigoSede: 8,
+    //         grupo: "Grupo J",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 42,
+    //         fecha: new Date("2026-06-22T21:00:00Z"), // formato ISO
+    //         paisA: "Francia",
+    //         paisB: "Irak", // Bolivia BOL o Iraq IRQ
+    //         codigoSede: 13,
+    //         grupo: "Grupo I",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 41,
+    //         fecha: new Date("2026-06-22T24:00:00Z"), // formato ISO
+    //         paisA: "Noruega",
+    //         paisB: "Senegal",
+    //         codigoSede: 6,
+    //         grupo: "Grupo I",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 44,
+    //         fecha: new Date("2026-06-23T03:00:00Z"), // formato ISO
+    //         paisA: "Jordania",
+    //         paisB: "Argelia",
+    //         codigoSede: 16,
+    //         grupo: "Grupo J",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 47,
+    //         fecha: new Date("2026-06-23T17:00:00Z"), // formato ISO
+    //         paisA: "Portugal",
+    //         paisB: "Uzbekistán",
+    //         codigoSede: 10,
+    //         grupo: "Grupo K",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 45,
+    //         fecha: new Date("2026-06-23T20:00:00Z"), // formato ISO
+    //         paisA: "Inglaterra",
+    //         paisB: "Ghana",
+    //         codigoSede: 12,
+    //         grupo: "Grupo L",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 46,
+    //         fecha: new Date("2026-06-23T23:00:00Z"), // formato ISO
+    //         paisA: "Panamá",
+    //         paisB: "Croacia",
+    //         codigoSede: 5,
+    //         grupo: "Grupo L",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 48,
+    //         fecha: new Date("2026-06-24T02:00:00Z"), // formato ISO
+    //         paisA: "Colombia",
+    //         paisB: "Congo DR", // Jamaica JAM o República Democrática del Congo DRC
+    //         codigoSede: 2,
+    //         grupo: "Grupo K",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 51,
+    //         fecha: new Date("2026-06-24T19:00:00Z"), // formato ISO
+    //         paisA: "Suiza",
+    //         paisB: "Canadá",
+    //         codigoSede: 4,
+    //         grupo: "Grupo B",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 52,
+    //         fecha: new Date("2026-06-24T19:00:00Z"), // formato ISO
+    //         paisA: "Bosnia y Herzegovina",
+    //         paisB: "Qatar",
+    //         codigoSede: 15,
+    //         grupo: "Grupo B",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 49,
+    //         fecha: new Date("2026-06-24T22:00:00Z"), // formato ISO
+    //         paisA: "Escocia",
+    //         paisB: "Brasil",
+    //         codigoSede: 14,
+    //         grupo: "Grupo C",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 50,
+    //         fecha: new Date("2026-06-24T22:00:00Z"), // formato ISO
+    //         paisA: "Marruecos",
+    //         paisB: "Haití",
+    //         codigoSede: 11,
+    //         grupo: "Grupo C",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 53,
+    //         fecha: new Date("2026-06-25T01:00:00Z"), // formato ISO
+    //         paisA: "República Checa",
+    //         paisB: "México",
+    //         codigoSede: 1,
+    //         grupo: "Grupo A",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 54,
+    //         fecha: new Date("2026-06-25T01:00:00Z"), // formato ISO
+    //         paisA: "Sudáfrica",
+    //         paisB: "República de Corea",
+    //         codigoSede: 3,
+    //         grupo: "Grupo A",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 55,
+    //         fecha: new Date("2026-06-25T20:00:00Z"), // formato ISO
+    //         paisA: "Curazao",
+    //         paisB: "Costa de Marfil",
+    //         codigoSede: 13,
+    //         grupo: "Grupo E",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 56,
+    //         fecha: new Date("2026-06-25T20:00:00Z"), // formato ISO
+    //         paisA: "Ecuador",
+    //         paisB: "Alemania",
+    //         codigoSede: 6,
+    //         grupo: "Grupo E",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 57,
+    //         fecha: new Date("2026-06-25T23:00:00Z"), // formato ISO
+    //         paisA: "Japón",
+    //         paisB: "Suecia",
+    //         codigoSede: 8,
+    //         grupo: "Grupo F",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 58,
+    //         fecha: new Date("2026-06-25T23:00:00Z"), // formato ISO
+    //         paisA: "Túnez",
+    //         paisB: "Países Bajos",
+    //         codigoSede: 9,
+    //         grupo: "Grupo F",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 59,
+    //         fecha: new Date("2026-06-26T02:00:00Z"), // formato ISO
+    //         paisA: "Turquía",
+    //         paisB: "EEUU",
+    //         codigoSede: 7,
+    //         grupo: "Grupo D",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 60,
+    //         fecha: new Date("2026-06-26T02:00:00Z"), // formato ISO
+    //         paisA: "Paraguay",
+    //         paisB: "Australia",
+    //         codigoSede: 16,
+    //         grupo: "Grupo D",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 61,
+    //         fecha: new Date("2026-06-26T19:00:00Z"), // formato ISO
+    //         paisA: "Noruega",
+    //         paisB: "Francia",
+    //         codigoSede: 12,
+    //         grupo: "Grupo I",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 62,
+    //         fecha: new Date("2026-06-26T19:00:00Z"), // formato ISO
+    //         paisA: "Senegal",
+    //         paisB: "Irak", // Bolivia BOL o Iraq IRQ
+    //         codigoSede: 5,
+    //         grupo: "Grupo I",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 65,
+    //         fecha: new Date("2026-06-26T24:00:00Z"), // formato ISO
+    //         paisA: "Islas de Cabo Verde",
+    //         paisB: "Arabia Saudí",
+    //         codigoSede: 10,
+    //         grupo: "Grupo H",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 66,
+    //         fecha: new Date("2026-06-26T24:00:00Z"), // formato ISO
+    //         paisA: "Uruguay",
+    //         paisB: "España",
+    //         codigoSede: 2,
+    //         grupo: "Grupo H",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 63,
+    //         fecha: new Date("2026-06-27T03:00:00Z"), // formato ISO
+    //         paisA: "Egipto",
+    //         paisB: "RI de Irán",
+    //         codigoSede: 15,
+    //         grupo: "Grupo G",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 64,
+    //         fecha: new Date("2026-06-27T03:00:00Z"), // formato ISO
+    //         paisA: "Nueva Zelanda",
+    //         paisB: "Bélgica",
+    //         codigoSede: 4,
+    //         grupo: "Grupo G",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 67,
+    //         fecha: new Date("2026-06-27T21:00:00Z"), // formato ISO
+    //         paisA: "Panamá",
+    //         paisB: "Inglaterra",
+    //         codigoSede: 6,
+    //         grupo: "Grupo L",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 68,
+    //         fecha: new Date("2026-06-27T21:00:00Z"), // formato ISO
+    //         paisA: "Croacia",
+    //         paisB: "Ghana",
+    //         codigoSede: 13,
+    //         grupo: "Grupo L",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 71,
+    //         fecha: new Date("2026-06-27T23:30:00Z"), // formato ISO
+    //         paisA: "Colombia",
+    //         paisB: "Portugal",
+    //         codigoSede: 14,
+    //         grupo: "Grupo K",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 72,
+    //         fecha: new Date("2026-06-27T23:30:00Z"), // formato ISO
+    //         paisA: "Congo DR", // Jamaica JAM o República Democrática del Congo DRC
+    //         paisB: "Uzbekistán",
+    //         codigoSede: 11,
+    //         grupo: "Grupo K",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 69,
+    //         fecha: new Date("2026-06-28T02:00:00Z"), // formato ISO
+    //         paisA: "Argelia",
+    //         paisB: "Austria",
+    //         codigoSede: 9,
+    //         grupo: "Grupo J",
+    //         iso_fase: "FG",
+    //     },
+    //     {
+    //         nroPartido: 70,
+    //         fecha: new Date("2026-06-28T02:00:00Z"), // formato ISO
+    //         paisA: "Jordania",
+    //         paisB: "Argentina",
+    //         codigoSede: 8,
+    //         grupo: "Grupo J",
+    //         iso_fase: "FG",
+    //     },
+
+    //     // Deciseisavos de Final
+    //     {
+    //         nroPartido: 73,
+    //         fecha: new Date("2026-06-28T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 7,
+    //         grupo: "Cruce 1",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 74,
+    //         fecha: new Date("2026-06-29T17:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 10,
+    //         grupo: "Cruce 2",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 75,
+    //         fecha: new Date("2026-06-29T20:30:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 12,
+    //         grupo: "Cruce 3",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 76,
+    //         fecha: new Date("2026-06-30T01:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 3,
+    //         grupo: "Cruce 4",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 77,
+    //         fecha: new Date("2026-06-30T17:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 8,
+    //         grupo: "Cruce 5",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 78,
+    //         fecha: new Date("2026-06-30T21:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 6,
+    //         grupo: "Cruce 6",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 79,
+    //         fecha: new Date("2026-07-01T01:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 1,
+    //         grupo: "Cruce 7",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 80,
+    //         fecha: new Date("2026-07-01T16:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 11,
+    //         grupo: "Cruce 8",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 81,
+    //         fecha: new Date("2026-07-01T20:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 15,
+    //         grupo: "Cruce 9",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 82,
+    //         fecha: new Date("2026-07-01T24:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 16,
+    //         grupo: "Cruce 10",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 83,
+    //         fecha: new Date("2026-07-02T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 7,
+    //         grupo: "Cruce 11",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 84,
+    //         fecha: new Date("2026-07-02T23:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 5,
+    //         grupo: "Cruce 12",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 85,
+    //         fecha: new Date("2026-07-03T03:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 4,
+    //         grupo: "Cruce 13",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 86,
+    //         fecha: new Date("2026-07-03T18:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 8,
+    //         grupo: "Cruce 14",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 87,
+    //         fecha: new Date("2026-07-03T22:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 14,
+    //         grupo: "Cruce 15",
+    //         iso_fase: "DF",
+    //     },
+    //     {
+    //         nroPartido: 88,
+    //         fecha: new Date("2026-07-04T01:30:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 9,
+    //         grupo: "Cruce 16",
+    //         iso_fase: "DF",
+    //     },
+
+    //     // Octavos de Final
+    //     {
+    //         nroPartido: 89,
+    //         fecha: new Date("2026-07-04T14:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 10,
+    //         grupo: "Cruce 1",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 90,
+    //         fecha: new Date("2026-07-04T21:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 13,
+    //         grupo: "Cruce 2",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 91,
+    //         fecha: new Date("2026-07-05T20:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 6,
+    //         grupo: "Cruce 3",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 92,
+    //         fecha: new Date("2026-07-05T24:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 1,
+    //         grupo: "Cruce 4",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 93,
+    //         fecha: new Date("2026-07-06T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 8,
+    //         grupo: "Cruce 5",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 94,
+    //         fecha: new Date("2026-07-06T24:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 15,
+    //         grupo: "Cruce 6",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 95,
+    //         fecha: new Date("2026-07-07T16:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 11,
+    //         grupo: "Cruce 7",
+    //         iso_fase: "OF",
+    //     },
+    //     {
+    //         nroPartido: 96,
+    //         fecha: new Date("2026-07-07T20:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 4,
+    //         grupo: "Cruce 8",
+    //         iso_fase: "OF",
+    //     },
+
+    //     // Cuartos de Final
+    //     {
+    //         nroPartido: 97,
+    //         fecha: new Date("2026-07-09T20:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 12,
+    //         grupo: "Cruce 1",
+    //         iso_fase: "CF",
+    //     },
+    //     {
+    //         nroPartido: 98,
+    //         fecha: new Date("2026-07-10T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 7,
+    //         grupo: "Cruce 2",
+    //         iso_fase: "CF",
+    //     },
+    //     {
+    //         nroPartido: 99,
+    //         fecha: new Date("2026-07-11T21:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 7,
+    //         grupo: "Cruce 3",
+    //         iso_fase: "CF",
+    //     },
+    //     {
+    //         nroPartido: 100,
+    //         fecha: new Date("2026-07-12T01:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 9,
+    //         grupo: "Cruce 4",
+    //         iso_fase: "CF",
+    //     },
+
+    //     // Semifinales
+    //     {
+    //         nroPartido: 101,
+    //         fecha: new Date("2026-07-14T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 8,
+    //         grupo: "Cruce 1",
+    //         iso_fase: "SF",
+    //     },
+    //     {
+    //         nroPartido: 102,
+    //         fecha: new Date("2026-07-15T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 11,
+    //         grupo: "Cruce 2",
+    //         iso_fase: "SF",
+    //     },
+
+    //     // Tercer Puesto
+    //     {
+    //         nroPartido: 103,
+    //         fecha: new Date("2026-07-18T21:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 14,
+    //         grupo: "Cruce 1",
+    //         iso_fase: "TP",
+    //     },
+
+    //     // Final
+    //     {
+    //         nroPartido: 104,
+    //         fecha: new Date("2026-07-19T19:00:00Z"), // formato ISO
+    //         paisA: null,
+    //         paisB: null,
+    //         codigoSede: 6,
+    //         grupo: "Cruce 1",
+    //         iso_fase: "F",
+    //     },
+    // ];
+
+    // TODO: DATA DE PRUEBA
     // Array de selecciones por grupo
     const calendario = [
         {
             nroPartido: 1,
-            fecha: new Date("2026-06-11T19:00:00Z"), // formato ISO
+            fecha: new Date("2026-06-10T23:00:00Z"), // formato ISO
             paisA: "México",
             paisB: "Sudáfrica",
             codigoSede: 1,
@@ -1684,7 +2637,7 @@ export async function createCalendarioService(): Promise<string[]> {
         },
         {
             nroPartido: 2,
-            fecha: new Date("2026-06-12T02:00:00Z"), // formato ISO
+            fecha: new Date("2026-06-11T00:00:00Z"), // formato ISO
             paisA: "República de Corea",
             paisB: "República Checa",
             codigoSede: 2,
@@ -1693,7 +2646,7 @@ export async function createCalendarioService(): Promise<string[]> {
         },
         {
             nroPartido: 3,
-            fecha: new Date("2026-06-12T19:00:00Z"), // formato ISO
+            fecha: new Date("2026-06-11T02:00:00Z"), // formato ISO
             paisA: "Canadá",
             paisB: "Bosnia y Herzegovina",
             codigoSede: 5,
@@ -1702,7 +2655,16 @@ export async function createCalendarioService(): Promise<string[]> {
         },
         {
             nroPartido: 4,
-            fecha: new Date("2026-06-13T01:00:00Z"), // formato ISO
+            fecha: new Date("2026-06-11T13:00:00Z"), // formato ISO
+            paisA: "EEUU",
+            paisB: "Paraguay",
+            codigoSede: 7,
+            grupo: "Grupo D",
+            iso_fase: "FG",
+        },
+        {
+            nroPartido: 4,
+            fecha: new Date("2026-06-11T15:00:00Z"), // formato ISO
             paisA: "EEUU",
             paisB: "Paraguay",
             codigoSede: 7,
@@ -1711,915 +2673,12 @@ export async function createCalendarioService(): Promise<string[]> {
         },
         {
             nroPartido: 8,
-            fecha: new Date("2026-06-13T19:00:00Z"), // formato ISO
+            fecha: new Date("2026-06-13T02:00:00Z"), // formato ISO
             paisA: "Qatar",
             paisB: "Suiza",
             codigoSede: 16,
             grupo: "Grupo B",
             iso_fase: "FG",
-        },
-        {
-            nroPartido: 7,
-            fecha: new Date("2026-06-13T22:00:00Z"), // formato ISO
-            paisA: "Brasil",
-            paisB: "Marruecos",
-            codigoSede: 6,
-            grupo: "Grupo C",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 5,
-            fecha: new Date("2026-06-14T01:00:00Z"), // formato ISO
-            paisA: "Haití",
-            paisB: "Escocia",
-            codigoSede: 12,
-            grupo: "Grupo C",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 6,
-            fecha: new Date("2026-06-14T04:00:00Z"), // formato ISO
-            paisA: "Australia",
-            paisB: "Turquía",
-            codigoSede: 4,
-            grupo: "Grupo D",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 9,
-            fecha: new Date("2026-06-14T17:00:00Z"), // formato ISO
-            paisA: "Alemania",
-            paisB: "Curazao",
-            codigoSede: 10,
-            grupo: "Grupo E",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 11,
-            fecha: new Date("2026-06-14T20:00:00Z"), // formato ISO
-            paisA: "Países Bajos",
-            paisB: "Japón",
-            codigoSede: 8,
-            grupo: "Grupo F",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 10,
-            fecha: new Date("2026-06-14T23:00:00Z"), // formato ISO
-            paisA: "Costa de Marfil",
-            paisB: "Ecuador",
-            codigoSede: 13,
-            grupo: "Grupo E",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 12,
-            fecha: new Date("2026-06-15T02:00:00Z"), // formato ISO
-            paisA: "Suecia",
-            paisB: "Túnez",
-            codigoSede: 3,
-            grupo: "Grupo F",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 14,
-            fecha: new Date("2026-06-15T16:00:00Z"), // formato ISO
-            paisA: "España",
-            paisB: "Islas de Cabo Verde",
-            codigoSede: 11,
-            grupo: "Grupo H",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 16,
-            fecha: new Date("2026-06-15T19:00:00Z"), // formato ISO
-            paisA: "Bélgica",
-            paisB: "Egipto",
-            codigoSede: 15,
-            grupo: "Grupo G",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 13,
-            fecha: new Date("2026-06-15T22:00:00Z"), // formato ISO
-            paisA: "Arabia Saudí",
-            paisB: "Uruguay",
-            codigoSede: 14,
-            grupo: "Grupo H",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 15,
-            fecha: new Date("2026-06-16T01:00:00Z"), // formato ISO
-            paisA: "RI de Irán",
-            paisB: "Nueva Zelanda",
-            codigoSede: 7,
-            grupo: "Grupo G",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 17,
-            fecha: new Date("2026-06-16T19:00:00Z"), // formato ISO
-            paisA: "Francia",
-            paisB: "Senegal",
-            codigoSede: 6,
-            grupo: "Grupo I",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 18,
-            fecha: new Date("2026-06-16T22:00:00Z"), // formato ISO
-            paisA: "Irak", // Bolivia BOL o Iraq IRQ
-            paisB: "Noruega",
-            codigoSede: 12,
-            grupo: "Grupo I",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 19,
-            fecha: new Date("2026-06-17T01:00:00Z"), // formato ISO
-            paisA: "Argentina",
-            paisB: "Argelia",
-            codigoSede: 9,
-            grupo: "Grupo J",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 20,
-            fecha: new Date("2026-06-17T04:00:00Z"), // formato ISO
-            paisA: "Austria",
-            paisB: "Jordania",
-            codigoSede: 16,
-            grupo: "Grupo J",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 23,
-            fecha: new Date("2026-06-17T17:00:00Z"), // formato ISO
-            paisA: "Portugal",
-            paisB: "Congo DR", // Jamaica JAM o República Democrática del Congo DRC
-            codigoSede: 10,
-            grupo: "Grupo K",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 22,
-            fecha: new Date("2026-06-17T20:00:00Z"), // formato ISO
-            paisA: "Inglaterra",
-            paisB: "Croacia",
-            codigoSede: 8,
-            grupo: "Grupo L",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 21,
-            fecha: new Date("2026-06-17T23:00:00Z"), // formato ISO
-            paisA: "Ghana",
-            paisB: "Panamá",
-            codigoSede: 5,
-            grupo: "Grupo L",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 24,
-            fecha: new Date("2026-06-18T02:00:00Z"), // formato ISO
-            paisA: "Uzbekistán",
-            paisB: "Colombia",
-            codigoSede: 1,
-            grupo: "Grupo K",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 25,
-            fecha: new Date("2026-06-18T16:00:00Z"), // formato ISO
-            paisA: "República Checa",
-            paisB: "Sudáfrica",
-            codigoSede: 11,
-            grupo: "Grupo A",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 26,
-            fecha: new Date("2026-06-18T19:00:00Z"), // formato ISO
-            paisA: "Suiza",
-            paisB: "Bosnia y Herzegovina",
-            codigoSede: 7,
-            grupo: "Grupo B",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 27,
-            fecha: new Date("2026-06-18T22:00:00Z"), // formato ISO
-            paisA: "Canadá",
-            paisB: "Qatar",
-            codigoSede: 4,
-            grupo: "Grupo B",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 28,
-            fecha: new Date("2026-06-19T01:00:00Z"), // formato ISO
-            paisA: "México",
-            paisB: "República de Corea",
-            codigoSede: 2,
-            grupo: "Grupo A",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 32,
-            fecha: new Date("2026-06-19T19:00:00Z"), // formato ISO
-            paisA: "EEUU",
-            paisB: "Australia",
-            codigoSede: 15,
-            grupo: "Grupo D",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 30,
-            fecha: new Date("2026-06-19T22:00:00Z"), // formato ISO
-            paisA: "Escocia",
-            paisB: "Marruecos",
-            codigoSede: 12,
-            grupo: "Grupo C",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 29,
-            fecha: new Date("2026-06-20T01:00:00Z"), // formato ISO
-            paisA: "Brasil",
-            paisB: "Haití",
-            codigoSede: 13,
-            grupo: "Grupo C",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 31,
-            fecha: new Date("2026-06-20T04:00:00Z"), // formato ISO
-            paisA: "Turquía",
-            paisB: "Paraguay",
-            codigoSede: 16,
-            grupo: "Grupo D",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 35,
-            fecha: new Date("2026-06-20T17:00:00Z"), // formato ISO
-            paisA: "Países Bajos",
-            paisB: "Suecia",
-            codigoSede: 10,
-            grupo: "Grupo F",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 33,
-            fecha: new Date("2026-06-20T20:00:00Z"), // formato ISO
-            paisA: "Alemania",
-            paisB: "Costa de Marfil",
-            codigoSede: 5,
-            grupo: "Grupo E",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 34,
-            fecha: new Date("2026-06-20T24:00:00Z"), // formato ISO
-            paisA: "Ecuador",
-            paisB: "Curazao",
-            codigoSede: 9,
-            grupo: "Grupo E",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 36,
-            fecha: new Date("2026-06-21T04:00:00Z"), // formato ISO
-            paisA: "Túnez",
-            paisB: "Japón",
-            codigoSede: 3,
-            grupo: "Grupo F",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 38,
-            fecha: new Date("2026-06-21T16:00:00Z"), // formato ISO
-            paisA: "España",
-            paisB: "Arabia Saudí",
-            codigoSede: 11,
-            grupo: "Grupo H",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 39,
-            fecha: new Date("2026-06-21T19:00:00Z"), // formato ISO
-            paisA: "Bélgica",
-            paisB: "RI de Irán",
-            codigoSede: 7,
-            grupo: "Grupo G",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 37,
-            fecha: new Date("2026-06-21T22:00:00Z"), // formato ISO
-            paisA: "Uruguay",
-            paisB: "Islas de Cabo Verde",
-            codigoSede: 14,
-            grupo: "Grupo H",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 40,
-            fecha: new Date("2026-06-22T01:00:00Z"), // formato ISO
-            paisA: "Nueva Zelanda",
-            paisB: "Egipto",
-            codigoSede: 4,
-            grupo: "Grupo G",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 43,
-            fecha: new Date("2026-06-22T17:00:00Z"), // formato ISO
-            paisA: "Argentina",
-            paisB: "Austria",
-            codigoSede: 8,
-            grupo: "Grupo J",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 42,
-            fecha: new Date("2026-06-22T21:00:00Z"), // formato ISO
-            paisA: "Francia",
-            paisB: "Irak", // Bolivia BOL o Iraq IRQ
-            codigoSede: 13,
-            grupo: "Grupo I",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 41,
-            fecha: new Date("2026-06-22T24:00:00Z"), // formato ISO
-            paisA: "Noruega",
-            paisB: "Senegal",
-            codigoSede: 6,
-            grupo: "Grupo I",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 44,
-            fecha: new Date("2026-06-23T03:00:00Z"), // formato ISO
-            paisA: "Jordania",
-            paisB: "Argelia",
-            codigoSede: 16,
-            grupo: "Grupo J",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 47,
-            fecha: new Date("2026-06-23T17:00:00Z"), // formato ISO
-            paisA: "Portugal",
-            paisB: "Uzbekistán",
-            codigoSede: 10,
-            grupo: "Grupo K",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 45,
-            fecha: new Date("2026-06-23T20:00:00Z"), // formato ISO
-            paisA: "Inglaterra",
-            paisB: "Ghana",
-            codigoSede: 12,
-            grupo: "Grupo L",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 46,
-            fecha: new Date("2026-06-23T23:00:00Z"), // formato ISO
-            paisA: "Panamá",
-            paisB: "Croacia",
-            codigoSede: 5,
-            grupo: "Grupo L",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 48,
-            fecha: new Date("2026-06-24T02:00:00Z"), // formato ISO
-            paisA: "Colombia",
-            paisB: "Congo DR", // Jamaica JAM o República Democrática del Congo DRC
-            codigoSede: 2,
-            grupo: "Grupo K",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 51,
-            fecha: new Date("2026-06-24T19:00:00Z"), // formato ISO
-            paisA: "Suiza",
-            paisB: "Canadá",
-            codigoSede: 4,
-            grupo: "Grupo B",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 52,
-            fecha: new Date("2026-06-24T19:00:00Z"), // formato ISO
-            paisA: "Bosnia y Herzegovina",
-            paisB: "Qatar",
-            codigoSede: 15,
-            grupo: "Grupo B",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 49,
-            fecha: new Date("2026-06-24T22:00:00Z"), // formato ISO
-            paisA: "Escocia",
-            paisB: "Brasil",
-            codigoSede: 14,
-            grupo: "Grupo C",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 50,
-            fecha: new Date("2026-06-24T22:00:00Z"), // formato ISO
-            paisA: "Marruecos",
-            paisB: "Haití",
-            codigoSede: 11,
-            grupo: "Grupo C",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 53,
-            fecha: new Date("2026-06-25T01:00:00Z"), // formato ISO
-            paisA: "República Checa",
-            paisB: "México",
-            codigoSede: 1,
-            grupo: "Grupo A",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 54,
-            fecha: new Date("2026-06-25T01:00:00Z"), // formato ISO
-            paisA: "Sudáfrica",
-            paisB: "República de Corea",
-            codigoSede: 3,
-            grupo: "Grupo A",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 55,
-            fecha: new Date("2026-06-25T20:00:00Z"), // formato ISO
-            paisA: "Curazao",
-            paisB: "Costa de Marfil",
-            codigoSede: 13,
-            grupo: "Grupo E",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 56,
-            fecha: new Date("2026-06-25T20:00:00Z"), // formato ISO
-            paisA: "Ecuador",
-            paisB: "Alemania",
-            codigoSede: 6,
-            grupo: "Grupo E",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 57,
-            fecha: new Date("2026-06-25T23:00:00Z"), // formato ISO
-            paisA: "Japón",
-            paisB: "Suecia",
-            codigoSede: 8,
-            grupo: "Grupo F",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 58,
-            fecha: new Date("2026-06-25T23:00:00Z"), // formato ISO
-            paisA: "Túnez",
-            paisB: "Países Bajos",
-            codigoSede: 9,
-            grupo: "Grupo F",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 59,
-            fecha: new Date("2026-06-26T02:00:00Z"), // formato ISO
-            paisA: "Turquía",
-            paisB: "EEUU",
-            codigoSede: 7,
-            grupo: "Grupo D",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 60,
-            fecha: new Date("2026-06-26T02:00:00Z"), // formato ISO
-            paisA: "Paraguay",
-            paisB: "Australia",
-            codigoSede: 16,
-            grupo: "Grupo D",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 61,
-            fecha: new Date("2026-06-26T19:00:00Z"), // formato ISO
-            paisA: "Noruega",
-            paisB: "Francia",
-            codigoSede: 12,
-            grupo: "Grupo I",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 62,
-            fecha: new Date("2026-06-26T19:00:00Z"), // formato ISO
-            paisA: "Senegal",
-            paisB: "Irak", // Bolivia BOL o Iraq IRQ
-            codigoSede: 5,
-            grupo: "Grupo I",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 65,
-            fecha: new Date("2026-06-26T24:00:00Z"), // formato ISO
-            paisA: "Islas de Cabo Verde",
-            paisB: "Arabia Saudí",
-            codigoSede: 10,
-            grupo: "Grupo H",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 66,
-            fecha: new Date("2026-06-26T24:00:00Z"), // formato ISO
-            paisA: "Uruguay",
-            paisB: "España",
-            codigoSede: 2,
-            grupo: "Grupo H",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 63,
-            fecha: new Date("2026-06-27T03:00:00Z"), // formato ISO
-            paisA: "Egipto",
-            paisB: "RI de Irán",
-            codigoSede: 15,
-            grupo: "Grupo G",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 64,
-            fecha: new Date("2026-06-27T03:00:00Z"), // formato ISO
-            paisA: "Nueva Zelanda",
-            paisB: "Bélgica",
-            codigoSede: 4,
-            grupo: "Grupo G",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 67,
-            fecha: new Date("2026-06-27T21:00:00Z"), // formato ISO
-            paisA: "Panamá",
-            paisB: "Inglaterra",
-            codigoSede: 6,
-            grupo: "Grupo L",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 68,
-            fecha: new Date("2026-06-27T21:00:00Z"), // formato ISO
-            paisA: "Croacia",
-            paisB: "Ghana",
-            codigoSede: 13,
-            grupo: "Grupo L",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 71,
-            fecha: new Date("2026-06-27T23:30:00Z"), // formato ISO
-            paisA: "Colombia",
-            paisB: "Portugal",
-            codigoSede: 14,
-            grupo: "Grupo K",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 72,
-            fecha: new Date("2026-06-27T23:30:00Z"), // formato ISO
-            paisA: "Congo DR", // Jamaica JAM o República Democrática del Congo DRC
-            paisB: "Uzbekistán",
-            codigoSede: 11,
-            grupo: "Grupo K",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 69,
-            fecha: new Date("2026-06-28T02:00:00Z"), // formato ISO
-            paisA: "Argelia",
-            paisB: "Austria",
-            codigoSede: 9,
-            grupo: "Grupo J",
-            iso_fase: "FG",
-        },
-        {
-            nroPartido: 70,
-            fecha: new Date("2026-06-28T02:00:00Z"), // formato ISO
-            paisA: "Jordania",
-            paisB: "Argentina",
-            codigoSede: 8,
-            grupo: "Grupo J",
-            iso_fase: "FG",
-        },
-
-        // Deciseisavos de Final
-        {
-            nroPartido: 73,
-            fecha: new Date("2026-06-28T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 7,
-            grupo: "Cruce 1",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 74,
-            fecha: new Date("2026-06-29T17:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 10,
-            grupo: "Cruce 2",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 75,
-            fecha: new Date("2026-06-29T20:30:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 12,
-            grupo: "Cruce 3",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 76,
-            fecha: new Date("2026-06-30T01:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 3,
-            grupo: "Cruce 4",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 77,
-            fecha: new Date("2026-06-30T17:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 8,
-            grupo: "Cruce 5",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 78,
-            fecha: new Date("2026-06-30T21:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 6,
-            grupo: "Cruce 6",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 79,
-            fecha: new Date("2026-07-01T01:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 1,
-            grupo: "Cruce 7",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 80,
-            fecha: new Date("2026-07-01T16:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 11,
-            grupo: "Cruce 8",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 81,
-            fecha: new Date("2026-07-01T20:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 15,
-            grupo: "Cruce 9",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 82,
-            fecha: new Date("2026-07-01T24:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 16,
-            grupo: "Cruce 10",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 83,
-            fecha: new Date("2026-07-02T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 7,
-            grupo: "Cruce 11",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 84,
-            fecha: new Date("2026-07-02T23:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 5,
-            grupo: "Cruce 12",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 85,
-            fecha: new Date("2026-07-03T03:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 4,
-            grupo: "Cruce 13",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 86,
-            fecha: new Date("2026-07-03T18:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 8,
-            grupo: "Cruce 14",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 87,
-            fecha: new Date("2026-07-03T22:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 14,
-            grupo: "Cruce 15",
-            iso_fase: "DF",
-        },
-        {
-            nroPartido: 88,
-            fecha: new Date("2026-07-04T01:30:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 9,
-            grupo: "Cruce 16",
-            iso_fase: "DF",
-        },
-
-        // Octavos de Final
-        {
-            nroPartido: 89,
-            fecha: new Date("2026-07-04T14:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 10,
-            grupo: "Cruce 1",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 90,
-            fecha: new Date("2026-07-04T21:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 13,
-            grupo: "Cruce 2",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 91,
-            fecha: new Date("2026-07-05T20:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 6,
-            grupo: "Cruce 3",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 92,
-            fecha: new Date("2026-07-05T24:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 1,
-            grupo: "Cruce 4",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 93,
-            fecha: new Date("2026-07-06T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 8,
-            grupo: "Cruce 5",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 94,
-            fecha: new Date("2026-07-06T24:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 15,
-            grupo: "Cruce 6",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 95,
-            fecha: new Date("2026-07-07T16:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 11,
-            grupo: "Cruce 7",
-            iso_fase: "OF",
-        },
-        {
-            nroPartido: 96,
-            fecha: new Date("2026-07-07T20:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 4,
-            grupo: "Cruce 8",
-            iso_fase: "OF",
-        },
-
-        // Cuartos de Final
-        {
-            nroPartido: 97,
-            fecha: new Date("2026-07-09T20:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 12,
-            grupo: "Cruce 1",
-            iso_fase: "CF",
-        },
-        {
-            nroPartido: 98,
-            fecha: new Date("2026-07-10T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 7,
-            grupo: "Cruce 2",
-            iso_fase: "CF",
-        },
-        {
-            nroPartido: 99,
-            fecha: new Date("2026-07-11T21:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 7,
-            grupo: "Cruce 3",
-            iso_fase: "CF",
-        },
-        {
-            nroPartido: 100,
-            fecha: new Date("2026-07-12T01:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 9,
-            grupo: "Cruce 4",
-            iso_fase: "CF",
-        },
-
-        // Semifinales
-        {
-            nroPartido: 101,
-            fecha: new Date("2026-07-14T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 8,
-            grupo: "Cruce 1",
-            iso_fase: "SF",
-        },
-        {
-            nroPartido: 102,
-            fecha: new Date("2026-07-15T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 11,
-            grupo: "Cruce 2",
-            iso_fase: "SF",
-        },
-
-        // Tercer Puesto
-        {
-            nroPartido: 103,
-            fecha: new Date("2026-07-18T21:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 14,
-            grupo: "Cruce 1",
-            iso_fase: "TP",
-        },
-
-        // Final
-        {
-            nroPartido: 104,
-            fecha: new Date("2026-07-19T19:00:00Z"), // formato ISO
-            paisA: null,
-            paisB: null,
-            codigoSede: 6,
-            grupo: "Cruce 1",
-            iso_fase: "F",
         },
     ];
 

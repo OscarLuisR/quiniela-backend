@@ -1,6 +1,7 @@
 import app from "./app.js";
 import { conectarMongo } from "./database/db.js";
 import { cargaDataInicial } from "./database/seed.js";
+import iniciarWorkerCierre from "./jobs/cierrePartidos.js";
 
 const PORT = app.get("port");
 
@@ -10,8 +11,12 @@ async function main() {
 
         await cargaDataInicial();
 
+        // 2. ENCENDEMOS EL WORKER AQUÍ
+        // Ya hay conexión a Mongo y la data inicial está cargada
+        iniciarWorkerCierre();
+
         app.listen(PORT, () => {
-            console.log(`🚀 Servidor escuchando ...`);
+            console.log(`🚀 Servidor escuchando en el puerto ${PORT}...`);
         });
     } catch (error) {
         console.error(error);
