@@ -137,8 +137,7 @@ export const limpiarCookiesAutorizacion = (req: Request, res: Response) => {
     const opciones: CookieOptions = {
         httpOnly: true,
         secure: isProd,
-        // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-        sameSite: isLocalhost ? "none" : "lax",
+        sameSite: buscaSameSite(req),
     };
 
     res.clearCookie("access_token", opciones);
@@ -186,4 +185,12 @@ export async function createIfNotExists(
             location,
         );
     }
+}
+
+export function buscaSameSite(req: Request): "lax" | "strict" | "none" {
+    const clientOrigin = req.headers.origin || "";
+    const isLocalhost = clientOrigin.includes("localhost");
+    const isProd = process.env.MODE_ENV === "production";
+
+    return isProd ? "none" : isLocalhost ? "strict" : "lax";
 }

@@ -2,7 +2,10 @@ import type { NextFunction, Request, Response } from "express";
 import type { IResponseAuth } from "../types/IResponseAuth";
 import type { IAuthenticatedRequest } from "../types/IAuthenticatedRequest";
 import { loginService } from "../services/auth.services.js";
-import { limpiarCookiesAutorizacion } from "../utils/funcionesGlobales.js";
+import {
+    limpiarCookiesAutorizacion,
+    buscaSameSite,
+} from "../utils/funcionesGlobales.js";
 
 export async function loginController(
     req: Request,
@@ -12,22 +15,16 @@ export async function loginController(
     const isProd = process.env.MODE_ENV === "production";
     const respuesta: IResponseAuth = await loginService(req.body);
 
-    // 1. Detectamos de dónde viene la petición (tu localhost o Vercel)
-    const clientOrigin = req.headers.origin || "";
-    const isLocalhost = clientOrigin.includes("localhost");
-
     res.cookie("access_token", respuesta.accessToken, {
         httpOnly: true,
         secure: isProd,
-        // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-        sameSite: isLocalhost ? "none" : "lax",
+        sameSite: buscaSameSite(req),
         maxAge: 1000 * 60 * 60,
     })
         .cookie("refresh_token", respuesta.refreshToken, {
             httpOnly: true,
             secure: isProd,
-            // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-            sameSite: isLocalhost ? "none" : "lax",
+            sameSite: buscaSameSite(req),
             maxAge: 1000 * 60 * 60,
         })
         .status(200)

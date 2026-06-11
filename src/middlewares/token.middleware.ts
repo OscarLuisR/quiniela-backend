@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import {
+    buscaSameSite,
     GeneraToken,
     limpiarCookiesAutorizacion,
 } from "../utils/funcionesGlobales.js";
@@ -44,10 +45,6 @@ async function verificaHeaderCookies(
 ): Promise<IPayLoad> {
     try {
         const isProd = process.env.MODE_ENV === "production";
-
-        // 1. Detectamos de dónde viene la petición (tu localhost o Vercel)
-        const clientOrigin = req.headers.origin || "";
-        const isLocalhost = clientOrigin.includes("localhost");
 
         // Verifica que los Tokens vengan en las cookies de la cabecera
         if (
@@ -129,8 +126,7 @@ async function verificaHeaderCookies(
             res.cookie("access_token", accessToken, {
                 httpOnly: true,
                 secure: isProd,
-                // sameSite: "none", // TODO: Se coloco None porque el frontend y el backend estan en dominio separados //isProd ? "strict" : "lax",
-                sameSite: isLocalhost ? "none" : "lax",
+                sameSite: buscaSameSite(req),
                 maxAge: 1000 * 60 * 60,
             });
 
