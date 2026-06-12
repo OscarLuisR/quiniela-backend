@@ -12,7 +12,7 @@ export async function loginController(
     res: Response,
     next: NextFunction,
 ): Promise<void> {
-    const isProd = process.env.MODE_ENV === "production";
+    const isProd = process.env.NODE_ENV === "production";
     const respuesta: IResponseAuth = await loginService(req.body);
 
     res.cookie("access_token", respuesta.accessToken, {

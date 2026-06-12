@@ -12,6 +12,7 @@ import { errorBodyHandler } from "./middlewares/errorBody.middleware.js";
 const app = express();
 
 // Settings
+app.set("trust proxy", 1);
 app.set("port", process.env.PORT || 4000);
 
 // Middleware

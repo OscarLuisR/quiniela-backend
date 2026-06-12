@@ -44,7 +44,7 @@ async function verificaHeaderCookies(
     location: string,
 ): Promise<IPayLoad> {
     try {
-        const isProd = process.env.MODE_ENV === "production";
+        const isProd = process.env.NODE_ENV === "production";
 
         // Verifica que los Tokens vengan en las cookies de la cabecera
         if (
@@ -167,7 +167,7 @@ async function verificaStatusToken(
 
         return { payLoad: decode };
     } catch (error: any) {
-        const isProd = process.env.MODE_ENV === "production";
+        const isProd = process.env.NODE_ENV === "production";
 
         switch (error?.name?.trim().toLowerCase()) {
             case "jsonwebtokenerror":

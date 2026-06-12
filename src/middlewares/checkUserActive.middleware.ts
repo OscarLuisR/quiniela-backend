@@ -12,7 +12,7 @@ export const checkUserActive = async (
     // Type assertion para extender el request
     const authReq = req as IAuthenticatedRequest;
 
-    const isProd = process.env.MODE_ENV === "production";
+    const isProd = process.env.NODE_ENV === "production";
 
     const user = await UsuarioModel.findById(authReq._id);
 

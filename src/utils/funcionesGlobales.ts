@@ -126,11 +126,7 @@ export async function GeneraToken(
 }
 
 export const limpiarCookiesAutorizacion = (req: Request, res: Response) => {
-    const isProd = process.env.MODE_ENV === "production";
-
-    // 1. Detectamos de dónde viene la petición (tu localhost o Vercel)
-    const clientOrigin = req.headers.origin || "";
-    const isLocalhost = clientOrigin.includes("localhost");
+    const isProd = process.env.NODE_ENV === "production";
 
     // Centralizamos la configuración para que coincida exactamente
     // con cómo se crearon (requisito de los navegadores para poder borrarlas)
@@ -190,7 +186,7 @@ export async function createIfNotExists(
 export function buscaSameSite(req: Request): "lax" | "strict" | "none" {
     const clientOrigin = req.headers.origin || "";
     const isLocalhost = clientOrigin.includes("localhost");
-    const isProd = process.env.MODE_ENV === "production";
+    const isProd = process.env.NODE_ENV === "production";
 
-    return isProd ? "none" : isLocalhost ? "strict" : "lax";
+    return isProd ? "lax" : isLocalhost ? "strict" : "lax";
 }

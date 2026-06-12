@@ -20,7 +20,7 @@ export async function loginService(data: IAuth): Promise<IResponseAuth> {
 
     if (!user) {
         const message =
-            process.env.MODE_ENV === "production"
+            process.env.NODE_ENV === "production"
                 ? "Acceso Denegado"
                 : "Acceso Denegado. Usuario No Existe";
 
@@ -36,7 +36,7 @@ export async function loginService(data: IAuth): Promise<IResponseAuth> {
 
     if (!comparacion) {
         const message =
-            process.env.MODE_ENV === "production"
+            process.env.NODE_ENV === "production"
                 ? "Acceso Denegado"
                 : "Acceso Denegado. Credenciales Incorrectas";
 
@@ -49,7 +49,7 @@ export async function loginService(data: IAuth): Promise<IResponseAuth> {
 
     if (!rol) {
         const message =
-            process.env.MODE_ENV === "production"
+            process.env.NODE_ENV === "production"
                 ? "Acceso Denegado"
                 : "Acceso Denegado. Rol Invalido";
 
